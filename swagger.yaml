@@ -1,0 +1,19 @@
+swagger: '2.0'
+info:
+  title: 'SOAP API'
+  description: 'API documentation for SOAP with JavaScript'
+  version: '1.0.0'
+paths:
+  /wsdl:
+    post:
+      summary: 'SOAP request'
+      description: 'Sends a SOAP request and gets a response'
+      responses:
+        200:
+          description: 'Successful SOAP response'
+          schema:
+            type: object
+            properties:
+              greeting:
+                type: string
+                example: 'Hi, I am Erick. SOAP with Js'

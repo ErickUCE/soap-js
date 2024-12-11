@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SOAP with JS</title>
+    <script>
+        // Función para realizar una solicitud SOAP y mostrar la respuesta
+        async function getSOAPResponse() {
+            const xml = `
+                <?xml version="1.0" encoding="UTF-8"?>
+                <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
+                                  xmlns:web="http://example.com/soap">
+                   <soapenv:Header/>
+                   <soapenv:Body>
+                      <web:sayHello>
+                         <web:name>Erick</web:name>
+                      </web:sayHello>
+                   </soapenv:Body>
+                </soapenv:Envelope>
+            `;
+
+            try {
+                const response = await fetch('http://localhost:3000/wsdl', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'text/xml'
+                    },
+                    body: xml
+                });
+
+                const text = await response.text();
+                const parser = new DOMParser();
+                const xmlDoc = parser.parseFromString(text, 'text/xml');
+                const greeting = xmlDoc.getElementsByTagName('greeting')[0].textContent;
+
+                document.getElementById('response').textContent = greeting;
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+
+        // Llamar la función al cargar la página
+        window.onload = getSOAPResponse;
+    </script>
+</head>
+<body>
+    <h1>Hi, I am Erick. SOAP with Js</h1>
+    <p id="response">Yeah</p>
+</body>
+</html>
